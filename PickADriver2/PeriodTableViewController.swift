@@ -5,12 +5,15 @@
 //  Created by James, Alice - PGA on 3/11/21.
 //
 
+
 import UIKit
 
+let savedNamesUserDefaultsKey = "names"
+
 class PeriodTableViewController: UITableViewController {
-    var names = [["First", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Second", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Third", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Fourth", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Fifth", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Sixth", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Seventh", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"], ["Eighth", "Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"]]
+    var names: [String: [String]] = [:]
     var selectedNames: [String] = []
-    var selectedPeriod = 0
+    var selectedPeriod = "0"
     
     
     override func viewDidLoad() {
@@ -23,9 +26,10 @@ class PeriodTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedNames = names[indexPath.row]
-        selectedPeriod = indexPath.row + 1
+        selectedPeriod = String(indexPath.row + 1)
+        selectedNames = names[selectedPeriod] ?? []
         performSegue(withIdentifier: "PeriodToNames", sender: nil)
     }
   
@@ -40,5 +44,14 @@ class PeriodTableViewController: UITableViewController {
         }
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let savedNames = UserDefaults.standard.value(forKey: savedNamesUserDefaultsKey) as? [String:[String]] {
+            names = savedNames
+        }
+        else {
+            let empty:[String:[String]] = [:]
+            UserDefaults.standard.set(empty, forKey: savedNamesUserDefaultsKey)
+        }
+    }
 }
