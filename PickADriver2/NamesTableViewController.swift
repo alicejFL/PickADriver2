@@ -19,7 +19,26 @@ var names = ["Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    @IBAction func onAddButtonTapped(_ sender: UIBarButtonItem)
+    {
+        let alert = UIAlertController(title: "Add a name", message: nil, preferredStyle: .alert)
+        var nameField: UITextField?
+        alert.addTextField(configurationHandler: {(textField) in
+            nameField = textField
+            nameField?.placeholder = "Name"
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let name = nameField?.text {
+                self.names.append(name)
+                self.tableView.reloadData()
+            }
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -38,7 +57,8 @@ var names = ["Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler
         return cell
     }
     
-
+  
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
