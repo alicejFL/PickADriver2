@@ -144,6 +144,16 @@ class DriverSelectCollectionViewController: UICollectionViewController {
         else {
             timer.invalidate()
             collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
+            let name = names[0]
+            classList.remove(at: classList.firstIndex(of: name)!)
+            classList.append(name)
+            save()
+        }
+    }
+    func save() {
+        if var savedNames = UserDefaults.standard.value(forKey: savedNamesUserDefaultsKey) as? [String:[String]] {
+            savedNames[period] = classList
+            UserDefaults.standard.set(savedNames, forKey: savedNamesUserDefaultsKey)
         }
     }
 }
