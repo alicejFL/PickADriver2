@@ -8,7 +8,7 @@
 import UIKit
 
 class NamesTableViewController: UITableViewController {
-var names = ["Henry", "Benny", "Violet", "Jesse", "Watch", "Gertrude", "Chandler"]
+    var names:[String] = []
 var period = "0"
     
     override func viewDidLoad() {

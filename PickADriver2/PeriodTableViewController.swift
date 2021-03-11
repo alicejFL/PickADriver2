@@ -11,8 +11,8 @@ import UIKit
 let savedNamesUserDefaultsKey = "names"
 
 class PeriodTableViewController: UITableViewController {
-    var names: [String: [String]] = [:]
-    var selectedNames: [String] = []
+//    var names: [String: [String]] = [:]
+//    var selectedNames: [String] = []
     var selectedPeriod = "0"
     
     
@@ -29,8 +29,8 @@ class PeriodTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedPeriod = String(indexPath.row + 1)
-        selectedNames = names[selectedPeriod] ?? []
-        performSegue(withIdentifier: "PeriodToNames", sender: nil)
+       // selectedNames = names[selectedPeriod] ?? []
+        performSegue(withIdentifier: "PeriodToDriverSelect", sender: nil)
     }
   
     
@@ -38,20 +38,12 @@ class PeriodTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let namesTableVC = segue.destination as? NamesTableViewController {
-            namesTableVC.names = selectedNames
-            namesTableVC.period = selectedPeriod
+       
+        if let driverSelectVC = segue.destination as? DriverSelectCollectionViewController {
+         //   driverSelectVC.names = selectedNames
+            driverSelectVC.period = selectedPeriod
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let savedNames = UserDefaults.standard.value(forKey: savedNamesUserDefaultsKey) as? [String:[String]] {
-            names = savedNames
-        }
-        else {
-            let empty:[String:[String]] = [:]
-            UserDefaults.standard.set(empty, forKey: savedNamesUserDefaultsKey)
-        }
-    }
+    
 }
