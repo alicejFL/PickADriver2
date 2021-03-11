@@ -150,6 +150,12 @@ class DriverSelectCollectionViewController: UICollectionViewController {
             save()
         }
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        names.remove(at: indexPath.row)
+        collectionView.deleteItems(at: [indexPath])
+    }
+    
     func save() {
         if var savedNames = UserDefaults.standard.value(forKey: savedNamesUserDefaultsKey) as? [String:[String]] {
             savedNames[period] = classList
